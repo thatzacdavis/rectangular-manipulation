@@ -6,7 +6,7 @@ It automatically stores every change automatically to `localStorage` in the brow
 
 Currently it does not change transformations properly.
 
-It is statically hosted [here](rect-man.surge.sh) via [Surge](https://surge.sh/).
+It is statically hosted [here](https://rect-man.surge.sh) via [Surge](https://surge.sh/).
 
 ## Quick Start
 
