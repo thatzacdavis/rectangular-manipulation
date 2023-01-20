@@ -6,6 +6,8 @@ It automatically stores every change automatically to `localStorage` in the brow
 
 Currently it does not change transformations properly.
 
+It is statically hosted [here](rect-man.surge.sh) via [Surge](https://surge.sh/).
+
 ## Quick Start
 
 1. `npm i`
@@ -15,6 +17,7 @@ Currently it does not change transformations properly.
 
 - [React](https://reactjs.org/)
 - [Konva](https://konvajs.org/)
+- [Surge](https://surge.sh/)
 
 ## Browser(s) Tested On
 **All on Mac OS**
