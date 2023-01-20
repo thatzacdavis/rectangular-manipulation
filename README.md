@@ -26,3 +26,9 @@ It is statically hosted [here](rect-man.surge.sh) via [Surge](https://surge.sh/)
 1. Chrome
 1. Safari
 1. Firefox
+
+## 🚀 Deployment Instructions
+1. `npm install --global surge`
+1. `npm run build`
+1. `cd build`
+1. `surge`
