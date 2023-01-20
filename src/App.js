@@ -4,6 +4,7 @@ import { Rect, Stage, Layer } from 'react-konva';
 import { Rectangle } from './components/Rectangle';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { EditSection } from './components/EditSection';
 
 const initialRectangles = [
   {
@@ -32,6 +33,8 @@ const App = () => {
   const [rectangles, setRectangles] = useLocalStorage('rm-savedRectangles', initialRectangles)
   const [selectedId, setSelectedId] = useState(null);
   const [draggingId, setDraggingId] = useState(null)
+
+  const [newColor, setNewColor] = useState(null)
 
   const handleMouseDown = e => {
     const clickedOnEmpty = e.target === e.target.getStage();
@@ -105,51 +108,51 @@ const App = () => {
   }, [annotations, rectangles, setRectangles])
 
   return (
-    <>
-    <Stage
-      width={window.innerWidth * .8}
-      height={window.innerHeight * .8}
-      onTouchStart={handleMouseDown}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      stroke='black'
-    >
-      <Layer>
-        {rectangles.map((rect, i) => {
-          return (
-            <Rectangle
-              key={i}
-              shapeProps={rect}
-              isSelected={rect.id === selectedId}
-              onSelect={() => {
-                setSelectedId(rect.id);
-              }}
-              onChange={(newAttrs) => {
-                const rects = rectangles.slice();
-                rects[i] = newAttrs;
-                setRectangles(rects);
-              }}
-              onDragStart={() => setDraggingId(rect.id)}
-            />
-          );
-        })}
-        {annotationsToDraw.map(value => {
-          return (
-            <Rect
-              x={value.x}
-              y={value.y}
-              width={value.width}
-              height={value.height}
-              fill="transparent"
-              stroke="black"
-            />
-          );
-        })}
-      </Layer>
-    </Stage>
-    <button onClick={() => setRectangles([])}>Clear</button>
-    </>
+    <div style={{ margin: '30px' }}>
+      <Stage
+        width={500}
+        height={500}
+        onTouchStart={handleMouseDown}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        stroke='black'
+      >
+        <Layer>
+          {rectangles.map((rect, i) => {
+            return (
+              <Rectangle
+                key={i}
+                shapeProps={rect}
+                isSelected={rect.id === selectedId}
+                onSelect={() => {
+                  setSelectedId(rect.id);
+                }}
+                onChange={(newAttrs) => {
+                  const rects = rectangles.slice();
+                  rects[i] = newAttrs;
+                  setRectangles(rects);
+                }}
+                onDragStart={() => setDraggingId(rect.id)}
+              />
+            );
+          })}
+          {annotationsToDraw.map(value => {
+            return (
+              <Rect
+                x={value.x}
+                y={value.y}
+                width={value.width}
+                height={value.height}
+                fill="transparent"
+                stroke="black"
+              />
+            );
+          })}
+        </Layer>
+      </Stage>
+      <EditSection selectedId={selectedId} setSelectedId={setSelectedId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
+    </div>
   );
 };
 
