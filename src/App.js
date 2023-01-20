@@ -3,6 +3,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Rect, Stage, Layer } from 'react-konva';
 import { Rectangle } from './components/Rectangle';
 import { v4 as uuidv4 } from 'uuid';
+import { useLocalStorage } from './hooks/useLocalStorage';
 
 const initialRectangles = [
   {
@@ -11,7 +12,7 @@ const initialRectangles = [
     width: 100,
     height: 100,
     fill: 'red',
-    id: 'rect1',
+    id: uuidv4(),
   },
   {
     x: 150,
@@ -19,7 +20,7 @@ const initialRectangles = [
     width: 100,
     height: 100,
     fill: 'green',
-    id: 'rect2',
+    id: uuidv4(),
   },
 ];
 
@@ -28,7 +29,7 @@ const App = () => {
   const [newAnnotation, setNewAnnotation] = useState([]);
   const annotationsToDraw = useMemo(() => [...annotations, ...newAnnotation], [annotations, newAnnotation]);
 
-  const [rectangles, setRectangles] = useState(initialRectangles);
+  const [rectangles, setRectangles] = useLocalStorage('rm-savedRectangles', initialRectangles)
   const [selectedId, setSelectedId] = useState(null);
   const [draggingId, setDraggingId] = useState(null)
 
@@ -94,23 +95,25 @@ const App = () => {
         y: annotations[0].y,
         width: annotations[0].width,
         height: annotations[0].height,
-        fill: 'salmon',
+        fill: 'black',
         id: uuidv4(),
       }
 
       setRectangles([...rectangles, { ...rectToAdd }])
       setAnnotations([])
     }
-  }, [annotations, rectangles])
+  }, [annotations, rectangles, setRectangles])
 
   return (
+    <>
     <Stage
-      width={window.innerWidth}
-      height={window.innerHeight}
+      width={window.innerWidth * .8}
+      height={window.innerHeight * .8}
       onTouchStart={handleMouseDown}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
+      stroke='black'
     >
       <Layer>
         {rectangles.map((rect, i) => {
@@ -128,7 +131,6 @@ const App = () => {
                 setRectangles(rects);
               }}
               onDragStart={() => setDraggingId(rect.id)}
-              // onDragEnd={() => setDraggingId(null)}
             />
           );
         })}
@@ -146,6 +148,8 @@ const App = () => {
         })}
       </Layer>
     </Stage>
+    <button onClick={() => setRectangles([])}>Clear</button>
+    </>
   );
 };
 
