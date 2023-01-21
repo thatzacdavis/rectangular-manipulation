@@ -17,14 +17,17 @@ export const EditSection = ({ selectedId, setSelectedId, rectangles, setRectangl
                         <div>
                             <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type='text' defaultValue={rectangles.find((r) => r.id === selectedId).fill} onChange={(e) => setNewColor(e.target.value)} />
                         </div>
-                        <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => {
-                            const newRectangleIndex = rectangles.findIndex((r) => r.id === selectedId)
-                            const newRectangle = { ...rectangles[newRectangleIndex], fill: newColor }
-                            const newRectangles = rectangles
-                            newRectangles[newRectangleIndex] = newRectangle
-                            setRectangles(newRectangles)
-                            setSelectedId(null)
-                        } }>Change</button>
+                            <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded ml-2"
+                                onClick={() => {
+                                    const newRectangleIndex = rectangles.findIndex((r) => r.id === selectedId)
+                                    const newRectangle = { ...rectangles[newRectangleIndex], fill: newColor }
+                                    const newRectangles = rectangles
+                                    newRectangles[newRectangleIndex] = newRectangle
+                                    setRectangles(newRectangles)
+                                    setSelectedId(null)
+                                } }>
+                                    Change
+                            </button>
                         </div>
                         <span><i>* Supports hex codes without # and all named colors that <a href="https://htmlcolorcodes.com/color-names/">HTML supports</a>.</i></span>
                     </div>)}
