@@ -1,59 +1,71 @@
 import './App.css';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Rect, Stage, Layer } from 'react-konva';
 import { Rectangle } from './components/Rectangle';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { EditSection } from './components/EditSection';
 
-const initialRectangles = [
-  {
-    x: 10,
-    y: 10,
-    width: 100,
-    height: 100,
-    fill: 'red',
-    id: uuidv4(),
-  },
-  {
-    x: 150,
-    y: 150,
-    width: 100,
-    height: 100,
-    fill: 'green',
-    id: uuidv4(),
-  },
-];
+// The initial layout presented to a user that hasn't used the app before.
+// This sets up a green and red square in the `Stage` for them to experiment with.
+const initialLayouts = [{
+  name: 'Layout 1',
+  rectangles: [
+    {
+      x: 10,
+      y: 10,
+      width: 100,
+      height: 100,
+      fill: 'red',
+      id: uuidv4(),
+    },
+    {
+      x: 150,
+      y: 150,
+      width: 100,
+      height: 100,
+      fill: 'green',
+      id: uuidv4(),
+    },
+  ]
+}];
 
 const App = () => {
   const [annotations, setAnnotations] = useState([]);
   const [newAnnotation, setNewAnnotation] = useState([]);
   const annotationsToDraw = useMemo(() => [...annotations, ...newAnnotation], [annotations, newAnnotation]);
 
-  const [rectangles, setRectangles] = useLocalStorage('rm-savedRectangles', initialRectangles)
-  const [selectedId, setSelectedId] = useState(null);
+  const [layouts, setLayouts] = useLocalStorage('rm-savedLayouts', initialLayouts)
+  const [selectedLayoutIndex, setSelectedLayoutIndex] = useState(0) // Always start with the first saved layout.
+  const [selectedRectId, setselectedRectId] = useState(null);
   const [draggingId, setDraggingId] = useState(null)
-
   const [newColor, setNewColor] = useState(null)
+
+  const rectangles = useMemo(() => layouts[selectedLayoutIndex].rectangles, [layouts, selectedLayoutIndex])
+  const setRectangles = useCallback((rectangles) => {
+    const newLayouts = layouts
+    newLayouts[selectedLayoutIndex].rectangles = rectangles
+    setLayouts(newLayouts)
+  }, [layouts, selectedLayoutIndex, setLayouts])
 
   const handleMouseDown = e => {
     const clickedOnEmpty = e.target === e.target.getStage();
 
-    if (selectedId) {
+    if (selectedRectId) {
       if (clickedOnEmpty) {
-        setSelectedId(null);
+        setselectedRectId(null);
         return
       }
     }
 
-    if (!selectedId && !draggingId && clickedOnEmpty && newAnnotation.length === 0) {
+    if (!selectedRectId && !draggingId && clickedOnEmpty && newAnnotation.length === 0) {
       const { x, y } = e.target.getStage().getPointerPosition();
       setNewAnnotation([{ x, y, width: 0, height: 0, key: "0" }]);
     }
   };
 
   const handleMouseUp = event => {
-    if (!selectedId && !draggingId && newAnnotation.length === 1) {
+    if (!selectedRectId && !draggingId && newAnnotation.length === 1) {
       const sx = newAnnotation[0].x;
       const sy = newAnnotation[0].y;
       const { x, y } = event.target.getStage().getPointerPosition();
@@ -75,7 +87,7 @@ const App = () => {
   };
 
   const handleMouseMove = event => {
-    if (!selectedId && !draggingId && newAnnotation.length === 1) {
+    if (!selectedRectId && !draggingId && newAnnotation.length === 1) {
       const sx = newAnnotation[0].x;
       const sy = newAnnotation[0].y;
       const { x, y } = event.target.getStage().getPointerPosition();
@@ -126,9 +138,9 @@ const App = () => {
               <Rectangle
                 key={i}
                 shapeProps={rect}
-                isSelected={rect.id === selectedId}
+                isSelected={rect.id === selectedRectId}
                 onSelect={() => {
-                  setSelectedId(rect.id);
+                  setselectedRectId(rect.id);
                 }}
                 onChange={(newAttrs) => {
                   const rects = rectangles.slice();
@@ -153,7 +165,7 @@ const App = () => {
           })}
         </Layer>
       </Stage>
-      <EditSection selectedId={selectedId} setSelectedId={setSelectedId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
+      <EditSection selectedId={selectedRectId} setselectedRectId={setselectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
     </div>
   );
 };
