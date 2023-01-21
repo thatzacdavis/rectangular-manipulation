@@ -12,6 +12,7 @@ It is statically hosted [here](https://rect-man.surge.sh) via [Surge](https://su
 
 1. `npm i`
 1. `npm start`
+1. `npm test`
 
 ## Technology Used
 
