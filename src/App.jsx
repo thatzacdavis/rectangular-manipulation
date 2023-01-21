@@ -16,7 +16,7 @@ const initialLayouts = [{
       y: 10,
       width: 100,
       height: 100,
-      fill: 'red',
+      fill: '#06b6d4',
       id: uuidv4(),
     },
     {
@@ -24,7 +24,7 @@ const initialLayouts = [{
       y: 150,
       width: 100,
       height: 100,
-      fill: 'green',
+      fill: '#3b82f6',
       id: uuidv4(),
     },
   ]
@@ -37,15 +37,20 @@ const App = () => {
 
   const [layouts, setLayouts] = useLocalStorage('rm-savedLayouts', initialLayouts)
   const [selectedLayoutIndex, setSelectedLayoutIndex] = useState(0) // Always start with the first saved layout.
-  const [selectedRectId, setselectedRectId] = useState(null);
+  const [selectedRectId, setSelectedRectId] = useState(null);
   const [draggingId, setDraggingId] = useState(null)
   const [newColor, setNewColor] = useState(null)
 
-  const rectangles = useMemo(() => layouts[selectedLayoutIndex].rectangles, [layouts, selectedLayoutIndex])
-  const setRectangles = useCallback((rectangles) => {
+  const rectangles = layouts[selectedLayoutIndex].rectangles
+  const setRectangles = useCallback((newRectangles) => {
     const newLayouts = layouts
-    newLayouts[selectedLayoutIndex].rectangles = rectangles
+    newLayouts[selectedLayoutIndex].rectangles = newRectangles
     setLayouts(newLayouts)
+    
+    if (newRectangles.length === 0) {
+      setSelectedRectId(null)
+      setAnnotations([])
+    }
   }, [layouts, selectedLayoutIndex, setLayouts])
 
   const handleMouseDown = e => {
@@ -53,7 +58,7 @@ const App = () => {
 
     if (selectedRectId) {
       if (clickedOnEmpty) {
-        setselectedRectId(null);
+        setSelectedRectId(null);
         return
       }
     }
@@ -122,50 +127,53 @@ const App = () => {
   }, [annotations, rectangles, setRectangles])
 
   return (
-    <div style={{ margin: '30px' }}>
-      <Stage
-        width={500}
-        height={500}
-        onTouchStart={handleMouseDown}
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        stroke='black'
-      >
-        <Layer>
-          {rectangles.map((rect, i) => {
-            return (
-              <Rectangle
-                key={i}
-                shapeProps={rect}
-                isSelected={rect.id === selectedRectId}
-                onSelect={() => {
-                  setselectedRectId(rect.id);
-                }}
-                onChange={(newAttrs) => {
-                  const rects = rectangles.slice();
-                  rects[i] = newAttrs;
-                  setRectangles(rects);
-                }}
-                onDragStart={() => setDraggingId(rect.id)}
-              />
-            );
-          })}
-          {annotationsToDraw.map(value => {
-            return (
-              <Rect
-                x={value.x}
-                y={value.y}
-                width={value.width}
-                height={value.height}
-                fill="transparent"
-                stroke="black"
-              />
-            );
-          })}
-        </Layer>
-      </Stage>
-      <EditSection selectedId={selectedRectId} setselectedRectId={setselectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
+    <div data-testid='AppContainer' className="bg-stone-50 w-full h-full">
+      <div className="bg-stone-50 m-10">
+        <Stage
+          key={`${selectedLayoutIndex}-${rectangles.length}`}
+          width={500}
+          height={500}
+          onTouchStart={handleMouseDown}
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          stroke='black'
+        >
+          <Layer>
+            {rectangles.map((rect, i) => {
+              return (
+                <Rectangle
+                  key={i}
+                  shapeProps={rect}
+                  isSelected={rect.id === selectedRectId}
+                  onSelect={() => {
+                    setSelectedRectId(rect.id);
+                  }}
+                  onChange={(newAttrs) => {
+                    const rects = rectangles.slice();
+                    rects[i] = newAttrs;
+                    setRectangles(rects);
+                  }}
+                  onDragStart={() => setDraggingId(rect.id)}
+                />
+              );
+            })}
+            {annotationsToDraw.map(value => {
+              return (
+                <Rect
+                  x={value.x}
+                  y={value.y}
+                  width={value.width}
+                  height={value.height}
+                  fill="transparent"
+                  stroke="black"
+                />
+              );
+            })}
+          </Layer>
+        </Stage>
+        <EditSection selectedId={selectedRectId} setSelectedId={setSelectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
+      </div>
     </div>
   );
 };
