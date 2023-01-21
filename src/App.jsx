@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Rect, Stage, Layer } from 'react-konva';
 import { Rectangle } from './components/Rectangle';
+import { Header } from './components/Header';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { EditSection } from './components/EditSection';
@@ -128,6 +129,7 @@ const App = () => {
 
   return (
     <div data-testid='AppContainer' className="bg-stone-50 w-full h-full">
+      <Header />
       <div className="bg-stone-50 m-10">
         <Stage
           key={`${selectedLayoutIndex}-${rectangles.length}`}
