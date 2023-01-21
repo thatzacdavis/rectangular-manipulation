@@ -1,3 +1,6 @@
+/**
+ * The bottom section of our application that allows us to change the color of the selected rectangle.
+ */
 export const EditSection = ({ selectedId, setSelectedId, rectangles, setRectangles, newColor, setNewColor }) => {
     return (
         <>

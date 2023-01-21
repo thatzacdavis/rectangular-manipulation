@@ -1,6 +1,9 @@
 import React from 'react';
 import { Rect, Transformer } from 'react-konva';
 
+/**
+ * A Rectangle shape that is rendered on a `canvas` using `konva`.
+ */
 export const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, onDragStart, onDragEnd }) => {
     const shapeRef = React.useRef();
     const transformerRef = React.useRef();
