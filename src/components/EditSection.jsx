@@ -4,7 +4,7 @@
 export const EditSection = ({ selectedId, setSelectedId, rectangles, setRectangles, newColor, setNewColor }) => {
     return (
         <>
-            <button className="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" onClick={() => setRectangles([])}>Clear</button>
+            <button className="mt-4 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" onClick={() => setRectangles([])}>Clear</button>
             <div className="w-full max-w-md">
                 <h1 className="text-3xl font-bold mb-4 mt-4">Selected Rectangle</h1>
                 {!selectedId
