@@ -18,6 +18,7 @@ It is statically hosted [here](https://rect-man.surge.sh) via [Surge](https://su
 - [React](https://reactjs.org/)
 - [Konva](https://konvajs.org/)
 - [Surge](https://surge.sh/)
+- [Tailwind](https://tailwindcss.com/)
 
 ## Browser(s) Tested On
 **All on Mac OS**
