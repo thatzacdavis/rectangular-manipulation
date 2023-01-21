@@ -36,11 +36,16 @@ export const Rectangle = ({ shapeProps, isSelected, onSelect, onChange, onDragSt
             onDragEnd && onDragEnd()
           }}
           onTransformEnd={(e) => {
-            const node = shapeRef.current;
+            const newAttributes = e.currentTarget.attrs
             onChange({
               ...shapeProps,
-              x: node.x(),
-              y: node.y(),
+              x: newAttributes.x,
+              y: newAttributes.y,
+              rotation: newAttributes.rotation,
+              skewX: newAttributes.skewX,
+              skewY: newAttributes.skewY,
+              scaleX: newAttributes.scaleX,
+              scaleY: newAttributes.scaleY,
             });
           }}
         />

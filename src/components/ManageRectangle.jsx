@@ -12,10 +12,13 @@ export const ManageRectangle = ({ selectedId, setSelectedId, rectangles, setRect
                     : (<div key={selectedId}>
                         <div className="flex items-center justify-start mb-2">
                         <div>
-                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">Color: </label>
+                            <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" 
+                                htmlFor="newColor">
+                                    Color:
+                            </label>
                         </div>
                         <div>
-                            <input className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type='text' defaultValue={rectangles.find((r) => r.id === selectedId).fill} onChange={(e) => setNewColor(e.target.value)} />
+                            <input id="newColor" className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" type='text' defaultValue={rectangles.find((r) => r.id === selectedId).fill} onChange={(e) => setNewColor(e.target.value)} />
                         </div>
                             <button className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded ml-2"
                                 onClick={() => {
