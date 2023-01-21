@@ -22,7 +22,7 @@ export const ManageRectangle = ({
         {!selectedId ? (
           <span>None</span>
         ) : (
-          <div key={selectedId}>
+          <div key={selectedId} data-testid='EditSection'>
             <div className="flex items-center justify-start mb-2">
               <div>
                 <label

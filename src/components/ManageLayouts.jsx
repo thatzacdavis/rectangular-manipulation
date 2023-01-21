@@ -48,6 +48,7 @@ export const ManageLayouts = ({
         </div>
         <div className="flex">
           <input
+            data-testid="NewLayoutNameTextbox"
             key={layouts.length}
             className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
             type="text"
@@ -55,7 +56,10 @@ export const ManageLayouts = ({
             onChange={(e) => setNewLayoutName(e.target.value)}
           />
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded ml-2"
+            data-testid="NewLayoutNameButton"
+            disabled={!newLayoutName || newLayoutName.length === 0}
+            aria-disabled={!newLayoutName || newLayoutName.length === 0}
+            className="bg-violet-500 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded ml-2 disabled:bg-gray-500 disabled:opacity-25"
             onClick={() => {
               const newLayout = { name: newLayoutName, rectangles: [] };
               setLayouts([...layouts, newLayout]);
