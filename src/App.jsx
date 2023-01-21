@@ -6,30 +6,8 @@ import { Header } from './components/Header';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { EditSection } from './components/EditSection';
-
-// The initial layout presented to a user that hasn't used the app before.
-// This sets up a green and red square in the `Stage` for them to experiment with.
-const initialLayouts = [{
-  name: 'Layout 1',
-  rectangles: [
-    {
-      x: 10,
-      y: 10,
-      width: 100,
-      height: 100,
-      fill: '#06b6d4',
-      id: uuidv4(),
-    },
-    {
-      x: 150,
-      y: 150,
-      width: 100,
-      height: 100,
-      fill: '#8b5cf6',
-      id: uuidv4(),
-    },
-  ]
-}];
+import { LayoutList } from './components/LayoutList';
+import { initialLayouts } from './constants'
 
 const App = () => {
   const [annotations, setAnnotations] = useState([]);
@@ -41,6 +19,7 @@ const App = () => {
   const [selectedRectId, setSelectedRectId] = useState(null);
   const [draggingId, setDraggingId] = useState(null)
   const [newColor, setNewColor] = useState(null)
+  const [newLayoutName, setNewLayoutName] = useState(null)
 
   const rectangles = layouts[selectedLayoutIndex].rectangles
   const setRectangles = useCallback((newRectangles) => {
@@ -55,7 +34,6 @@ const App = () => {
   }, [layouts, selectedLayoutIndex, setLayouts])
 
   const handleMouseDown = e => {
-    console.log('handleMouseDown', e.target)
     const clickedOnEmpty = e.target === e.target.getStage();
 
     if (selectedRectId) {
@@ -148,7 +126,7 @@ const App = () => {
     <div data-testid='AppContainer' className="bg-stone-50 w-screen h-screen">
       <Header />
       <div className="m-10 h-full">
-        <div data-testid='TopContainer' className='h-2/4'>
+        <div data-testid='TopContainer' className='h-2/4 flex'>
           <div ref={stageContainerRef} data-testid='StageContainer' className='bg-slate-200 h-full w-2/3'>
             <Stage
               width={stageDimensions.width}
@@ -192,6 +170,9 @@ const App = () => {
                 })}
               </Layer>
             </Stage>
+          </div>
+          <div data-testid='LayoutContainer' className='w-1/3'>
+            <LayoutList layouts={layouts} selectedLayoutIndex={selectedLayoutIndex} setSelectedLayoutIndex={setSelectedLayoutIndex} newLayoutName={newLayoutName} setNewLayoutName={setNewLayoutName} setLayouts={setLayouts} />
           </div>
         </div>
         <EditSection selectedId={selectedRectId} setSelectedId={setSelectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
