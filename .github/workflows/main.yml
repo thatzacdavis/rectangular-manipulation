@@ -1,0 +1,28 @@
+name: Main Workflow
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+concurrency:
+  group: 'main'
+  cancel-in-progress: true
+jobs:
+  build:
+    name: 📦 Build & 🧪 Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repo
+        uses: actions/checkout@v3
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+      - name: 💾 Install Dependencies
+        run: npm install
+      - name: 📦 Build Web App
+        run: npm run build:ci
+      - name: 🧪 Test
+        run: npm run test:ci
