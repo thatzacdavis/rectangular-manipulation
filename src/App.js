@@ -91,6 +91,8 @@ const App = () => {
     }
   };
 
+  // Once a rectangle is drawn as an "annotation", it is preserved to the layout by making it part
+  // of the stored rectangles array.
   useEffect(() => {
     if (annotations.length > 0) {
       const rectToAdd = {
