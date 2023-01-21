@@ -1,7 +1,7 @@
 /**
  * The bottom section of our application that allows us to change the color of the selected rectangle.
  */
-export const EditSection = ({ selectedId, setSelectedId, rectangles, setRectangles, newColor, setNewColor }) => {
+export const ManageRectangle = ({ selectedId, setSelectedId, rectangles, setRectangles, newColor, setNewColor }) => {
     return (
         <>
             <button className="mt-4 bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" onClick={() => setRectangles([])}>Clear</button>

@@ -1,4 +1,4 @@
-export const LayoutList = ({ layouts, selectedLayoutIndex, setSelectedLayoutIndex, newLayoutName, setNewLayoutName, setLayouts }) => {
+export const ManageLayouts = ({ layouts, selectedLayoutIndex, setSelectedLayoutIndex, newLayoutName, setNewLayoutName, setLayouts }) => {
     return (
         <div className='ml-4 mr-4 h-full'>
             <div className="flex flex-col justify-between flex-1 h-full">

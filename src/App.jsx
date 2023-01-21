@@ -5,8 +5,8 @@ import { Rectangle } from './components/Rectangle';
 import { Header } from './components/Header';
 import { v4 as uuidv4 } from 'uuid';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { EditSection } from './components/EditSection';
-import { LayoutList } from './components/LayoutList';
+import { ManageRectangle } from './components/ManageRectangle';
+import { ManageLayouts } from './components/ManageLayouts';
 import { initialLayouts } from './constants'
 
 const App = () => {
@@ -172,10 +172,10 @@ const App = () => {
             </Stage>
           </div>
           <div data-testid='LayoutContainer' className='w-1/3'>
-            <LayoutList layouts={layouts} selectedLayoutIndex={selectedLayoutIndex} setSelectedLayoutIndex={setSelectedLayoutIndex} newLayoutName={newLayoutName} setNewLayoutName={setNewLayoutName} setLayouts={setLayouts} />
+            <ManageLayouts layouts={layouts} selectedLayoutIndex={selectedLayoutIndex} setSelectedLayoutIndex={setSelectedLayoutIndex} newLayoutName={newLayoutName} setNewLayoutName={setNewLayoutName} setLayouts={setLayouts} />
           </div>
         </div>
-        <EditSection selectedId={selectedRectId} setSelectedId={setSelectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
+        <ManageRectangle selectedId={selectedRectId} setSelectedId={setSelectedRectId} rectangles={rectangles} setRectangles={setRectangles} newColor={newColor} setNewColor={setNewColor} />
       </div>
     </div>
   );
