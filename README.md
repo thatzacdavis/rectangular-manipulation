@@ -21,6 +21,7 @@ It is statically hosted [here](https://rect-man.surge.sh) via [Surge](https://su
 - [Tailwind](https://tailwindcss.com/)
 
 ## Browser(s) Tested On
+
 **All on Mac OS**
 
 1. Brave
@@ -29,6 +30,7 @@ It is statically hosted [here](https://rect-man.surge.sh) via [Surge](https://su
 1. Firefox
 
 ## 🚀 Deployment Instructions
+
 1. `npm install --global surge`
 1. `npm run build`
 1. `cd build`

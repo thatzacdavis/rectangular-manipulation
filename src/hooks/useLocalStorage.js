@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 /**
  * Stores the desired object in the browser's local storage.
- * @param {string} key 
- * @param {any} initialValue 
+ * @param {string} key
+ * @param {any} initialValue
  * @returns the initial value passed in if nothing is stored in the desired key.
  */
 export const useLocalStorage = (key, initialValue) => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       return initialValue;
     }
     try {
@@ -30,7 +30,7 @@ export const useLocalStorage = (key, initialValue) => {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      if (typeof window !== "undefined") {
+      if (typeof window !== 'undefined') {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
@@ -38,4 +38,4 @@ export const useLocalStorage = (key, initialValue) => {
     }
   };
   return [storedValue, setValue];
-}
+};
